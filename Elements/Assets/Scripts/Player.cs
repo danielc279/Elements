@@ -6,14 +6,23 @@ public class Player : MonoBehaviour {
 
 	private Rigidbody2D myRigidbody;
 
+	private Animator myAnimator;
+
 	[SerializeField]
 	private float movementSpeed;
 
 	private bool facingRight;
 
+	[SerializeField]
+	private bool isGrounded;
+
+	[SerializeField]
+	private float initialJumpPower = 400f;
+
 	void Start()
 	{
 		myRigidbody = GetComponent<Rigidbody2D>();
+		myAnimator = GetComponent<Animator>();
 	}
 
 	void FixedUpdate()
@@ -22,11 +31,18 @@ public class Player : MonoBehaviour {
 		HandleMovement(horizontal);
 
 		Flip(horizontal);
+
+		if(Input.GetButtonDown("Jump"))
+		{
+			Jump();
+		}
 	}
 
 	private void HandleMovement(float horizontal)
 	{
 		myRigidbody.velocity = new Vector2(horizontal * movementSpeed, myRigidbody.velocity.y); //x-1, y = 0;
+
+		myAnimator.SetFloat("speed", Mathf.Abs(horizontal));
 	}
 
 	private void Flip(float horizontal)
@@ -42,4 +58,24 @@ public class Player : MonoBehaviour {
 			transform.localScale = theScale;
 		}
 	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		isGrounded = true;
+	}
+
+	private void OnTriggerExit2D(Collider2D other)
+	{
+		isGrounded = false;
+	}
+
+	private void Jump()
+	{
+		if(isGrounded == true)
+		{
+			myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0);
+            myRigidbody.AddForce(Vector2.up * initialJumpPower);
+		}
+	}
+
 }
