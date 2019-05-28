@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -62,6 +63,12 @@ public class Player : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		isGrounded = true;
+				if (other.gameObject.CompareTag("enemy"))
+		{
+			//Destroy (other.gameObject);
+			// Yield return new WaitForSeconds(3);
+			SceneManager.LoadScene(7);
+		}
 	}
 
 	private void OnTriggerExit2D(Collider2D other)
@@ -76,6 +83,9 @@ public class Player : MonoBehaviour {
 			myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0);
             myRigidbody.AddForce(Vector2.up * initialJumpPower);
 		}
+		
 	}
+
+
 
 }
