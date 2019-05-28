@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class UImanager : MonoBehaviour {
+
+   	public TextMeshProUGUI[] scoreTexts;
 
 	void Start () {
 	}
@@ -38,4 +41,6 @@ public class UImanager : MonoBehaviour {
 	{
 		SceneManager.LoadScene(5);
 	}
+
+
 }

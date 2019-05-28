@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - enemy
+  - battery
+  - door
+  - ground
+  - background
+  - battery1
   layers:
   - Default
   - TransparentFX

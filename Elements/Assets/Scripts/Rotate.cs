@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Rotate : MonoBehaviour
 {
@@ -9,35 +11,46 @@ public class Rotate : MonoBehaviour
 
 private bool is_Rotating = false;
 private GameObject player;
+
 private Rigidbody2D myRB;
 
-private Player myPlayer;
+private PlayerMovement myPlayerMov;
+
+public int score { get; private set; }
 
 private Animator myAnimator;
 private float time;
+
+public TextMeshProUGUI scoreUI;
 
 void Start()
 {
 
     player = GameObject.Find("Player");
     myRB = player.gameObject.GetComponent<Rigidbody2D>();
-    myPlayer = player.GetComponent<Player>();
+    myPlayerMov = player.GetComponent<PlayerMovement>();
     myAnimator = player.GetComponent<Animator>();
+    score = 0;
 }
 
 void Update () {
     if (Input.GetKeyDown(KeyCode.C) && !is_Rotating) { 
+        score++;
+        scoreUI.SetText(score.ToString());
         StartCoroutine(RotateObject(1, 1, 89));
     }
     if (Input.GetKeyDown(KeyCode.V) && !is_Rotating) {
+        score++;
+        scoreUI.SetText(score.ToString());
         StartCoroutine(RotateObject(1, -1,-89));
+
     }
 }
 
 IEnumerator RotateObject(float rotateTime, float offset, float rotateAmount)
 {
     myRB.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-    myPlayer.enabled = false;
+    myPlayerMov.enabled = false;
     myAnimator.enabled = false;
     Quaternion tmpRotation = transform.rotation;
     is_Rotating = true;
@@ -52,7 +65,7 @@ IEnumerator RotateObject(float rotateTime, float offset, float rotateAmount)
     transform.RotateAround(player.transform.GetChild(1).transform.position, Vector3.forward, tmpRotation.eulerAngles.z + rotateAmount + offset - transform.rotation.eulerAngles.z);
     time = 0.0f;
     myRB.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
-    myPlayer.enabled = true;
+    myPlayerMov.enabled = true;
     myAnimator.enabled = true;
     yield return null;
 }
