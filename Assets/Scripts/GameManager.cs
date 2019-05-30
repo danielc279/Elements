@@ -5,13 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+//Game Modes: Title Screen, Level Select, Play Level, Game Over
+public class GameManager : MonoBehaviour {
 
-public class UImanager : MonoBehaviour {
-
-   	public TextMeshProUGUI[] scoreTexts;
-
-	void Start () {
-	}
+   	public TextMeshProUGUI scoreTexts;
+	
 	public void levelButtonPress()
 	{
 		SceneManager.LoadScene(2);
@@ -41,6 +39,4 @@ public class UImanager : MonoBehaviour {
 	{
 		SceneManager.LoadScene(5);
 	}
-
-
 }
